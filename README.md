@@ -19,7 +19,7 @@ This is a tool for Sakai dedicated to the creation, management and use of virtua
 
 ## Prerequisites
 You need:
-- A Sakai 20.x instance.
+- A Sakai 21.x instance or higher. (For Sakai 20.x instances you might want to checkout the 20.x branch if it's available, for newer versions Master is fine).
 - For Microsoft Teams integration:
   - A Microsoft Azure Active Directory application.
   - Azure Active Directory users must have the same email in Sakai to be identified as members of the organization.
@@ -64,11 +64,16 @@ You have to configure your server's Sakai properties file so that the Meetings t
 
 ## Future plans and Roadmap
 
-- New video conferencing providers: _Zoom_
-- Contribution to Sakai Master.
+- Improve documentation.
+- Right now is a contrib project, institutions can start evaluating and using it.
+- We want feedback from institutions about the tool.
+- Improve Microsoft permissions for institutions using Microsoft accounts.
+- Contribution to Sakai Master may happen soon depending on discussions and feedback.
+- Reuse the meeting card component in other tools like Lessons or create a meeting widget.
+- Support other webconference providers like Zoom or BBB depending on funding or contributions.
 
 ## Compatibility
-Version 1.0+ of Meetings is compatible with Sakai 20.x.
+Version 1.0+ of Meetings is compatible with Sakai 21.x and higher, Sakai 20.x compatibility is under review because of Hibernate and Spring dependencies.
 
 ## Contact
 If you have any questions please contact the devs at **Entornos de Formacion S.L.** at sakaigers@edf.global
