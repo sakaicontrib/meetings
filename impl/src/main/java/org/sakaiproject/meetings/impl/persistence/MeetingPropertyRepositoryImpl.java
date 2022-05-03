@@ -3,7 +3,6 @@ package org.sakaiproject.meetings.impl.persistence;
 import java.util.Optional;
 
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.sakaiproject.meetings.api.model.MeetingProperty;
 import org.sakaiproject.meetings.api.persistence.MeetingPropertyRepository;
 import org.sakaiproject.serialization.BasicSerializableRepository;

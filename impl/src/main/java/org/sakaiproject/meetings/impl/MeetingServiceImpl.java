@@ -1,17 +1,12 @@
 package org.sakaiproject.meetings.impl;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-import org.sakaiproject.meetings.api.model.AttendeeType;
 import org.sakaiproject.meetings.api.model.Meeting;
-import org.sakaiproject.meetings.api.model.MeetingAttendee;
 import org.sakaiproject.meetings.api.model.MeetingProperty;
 import org.sakaiproject.meetings.api.persistence.MeetingAttendeeRepository;
 import org.sakaiproject.meetings.api.persistence.MeetingPropertyRepository;
 import org.sakaiproject.meetings.api.persistence.MeetingRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

@@ -3,25 +3,18 @@ package org.sakaiproject.meetings.impl.persistence;
 import org.sakaiproject.meetings.api.persistence.MeetingRepository;
 import org.sakaiproject.serialization.BasicSerializableRepository;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
 import org.sakaiproject.meetings.api.model.AttendeeType;
 import org.sakaiproject.meetings.api.model.Meeting;
 import org.sakaiproject.meetings.api.model.MeetingAttendee;
