@@ -21,7 +21,6 @@ import org.sakaiproject.meetings.api.model.Meeting;
 import org.sakaiproject.meetings.api.model.MeetingAttendee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

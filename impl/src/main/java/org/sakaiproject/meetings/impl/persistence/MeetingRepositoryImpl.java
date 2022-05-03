@@ -41,42 +41,17 @@ public class MeetingRepositoryImpl extends BasicSerializableRepository<Meeting, 
     
     @Override
     public List<Meeting> getSiteMeetings(String siteId) {
-        CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
-        CriteriaQuery<Meeting> query = criteriaBuilder.createQuery(Meeting.class);
-        Root<Meeting> root = query.from(Meeting.class);
-        Predicate siteRestriction = criteriaBuilder.equal(root.get("siteId"), siteId);
-        query.select(root).where(siteRestriction).distinct(true);
-        return getCurrentSession().createQuery(query).getResultList();
+        return getCurrentSession().createQuery("from Meeting where siteId = :siteId").setParameter("siteId", siteId).list();
     }
     
     @Override
     public List<Meeting> getMeetings(String userId, String siteId, List<String> groupIds) {
-        CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
-        CriteriaQuery<Meeting> query = criteriaBuilder.createQuery(Meeting.class);
-        Root<Meeting> root = query.from(Meeting.class);
-        Join<Meeting, MeetingAttendee> joinAttendees = root.join("attendees");
-        Predicate orClause = criteriaBuilder.disjunction();
-        if (userId != null) {
-            Predicate userRestriction = criteriaBuilder.and(
-                    criteriaBuilder.equal(joinAttendees.get("type"), AttendeeType.USER),
-                    criteriaBuilder.equal(joinAttendees.get("objectId"), userId));
-            orClause.getExpressions().add(userRestriction);
-        }
-        if (siteId != null) {
-            Predicate siteRestriction = criteriaBuilder.and(
-                    criteriaBuilder.equal(joinAttendees.get("type"), AttendeeType.SITE),
-                    criteriaBuilder.equal(joinAttendees.get("objectId"), siteId));
-            orClause.getExpressions().add(siteRestriction);
-        }
-        if (!CollectionUtils.isEmpty(groupIds)) {
-            Predicate groupRestriction = criteriaBuilder.and(
-                    criteriaBuilder.equal(joinAttendees.get("type"), AttendeeType.GROUP),
-                    joinAttendees.get("objectId").in(groupIds));
-            orClause.getExpressions().add(groupRestriction);
-        }
-        Predicate where = criteriaBuilder.and(criteriaBuilder.equal(root.get("siteId"), siteId), orClause);
-        query.select(root).where(where).distinct(true);
-        return getCurrentSession().createQuery(query).getResultList();
+        return getCurrentSession().createQuery("select m from Meeting as m, MeetingAttendee as a where m.siteId = :siteId and a.meeting.id = m.id and "
+                + "((a.type = 0 and a.objectId = :userId) or (a.type = 1 and a.objectId = :siteId) or (a.type = 3 and a.objectId in :groupIds))")
+        .setParameter("siteId", siteId)
+        .setParameter("userId", userId)
+        .setParameter("groupIds", groupIds)
+        .list();
     }
     
 }

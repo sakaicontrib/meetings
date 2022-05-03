@@ -22,8 +22,8 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -41,16 +41,11 @@ public class MeetingsImplTestConfiguration {
 
     @Bean(name = "org.sakaiproject.springframework.orm.hibernate.GlobalSessionFactory")
     public SessionFactory sessionFactory() throws IOException {
-        DataSource dataSource = dataSource();
-        LocalSessionFactoryBuilder sfb = new LocalSessionFactoryBuilder(dataSource);
-        StandardServiceRegistryBuilder srb = sfb.getStandardServiceRegistryBuilder();
-        srb.applySetting(org.hibernate.cfg.Environment.DATASOURCE, dataSource);
-        srb.applySettings(hibernateProperties());
-        StandardServiceRegistry sr = srb.build();
-        sr.getService(MutableIdentifierGeneratorFactoryInitiator.INSTANCE.getServiceInitiated())
-                .register("uuid2", AssignableUUIDGenerator.class);
+        LocalSessionFactoryBuilder sfb = new LocalSessionFactoryBuilder(dataSource());
         hibernateMappings.processAdditionalMappings(sfb);
-        return sfb.buildSessionFactory(sr);
+        sfb.addProperties(hibernateProperties());
+        sfb.getIdentifierGeneratorFactory().register("uuid2", AssignableUUIDGenerator.class);
+        return sfb.buildSessionFactory();
     }
 
     @Bean(name = "javax.sql.DataSource")
