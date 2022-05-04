@@ -180,7 +180,7 @@ import SakaiInput from "../components/sakai-input.vue";
 import SakaiIcon from "../components/sakai-icon.vue";
 import constants from "../resources/constants.js";
 import i18nMixn from "../mixins/i18n-mixn.js";
-import { ssrContextKey } from "vue";
+
 export default {
   name: "create-meeting",
   components: {
@@ -302,7 +302,7 @@ export default {
     setValidation(field, valid) {
       this.validations[field] = valid;
     },
-    handleSave: function () {
+    handleSave: async function () {
       let saveData = {
         id: this.id,
         title: this.formdata.title,
@@ -325,19 +325,20 @@ export default {
         methodToCall = methodToCall + "/meeting";
       }
       // Invoke REST Controller - Save (POST or PUT)
-      fetch(methodToCall, {
+      const response = await fetch(methodToCall, {
         credentials: "include",
         method: restMethod,
         cache: "no-cache",
         headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify(saveData),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          this.$router.push({ name: "Main" });
-        })
-        .catch((error) => this.showError(error))
-        .then((response) => console.log("Success:", response));
+      });
+      if(response.ok) {
+        this.$router.push({ name: "Main" });
+      } else if (response.status == 500) {
+        this.showError(this.i18n.error_create_meeting_500)
+      } else {
+        this.showError(this.i18n.error_create_meeting_unknown)
+      }
     },
     handleCancel() {
       this.$router.push({ name: "Main" });
