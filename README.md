@@ -26,9 +26,23 @@ You need:
 
 ## Microsoft Teams
 ### Azure AD configuration
-You must create a new application in the  _App Registrations_ section of the Azure Active Directory portal. To grant **Meetings tool** access to your registered Azure application, you will need a **client secret**. To obtain this, you can access the _Certificates & secrets_ section within the configuration page of your registered Azure application.
+You must create a new application in the  _App Registrations_ section of the Azure Active Directory portal by clicking on the _New Registration_ button.
 
-Once the app is created, you need to configure the permissions for your registered Azure App in the _API Permissions_ section. To add a new permission you must click _Add a permission_, then select _Microsoft Graph_ and _Application Permissions_. The permissions to enable are defined in the following table:
+![App registrations](docs/images/1.png "App registration")
+
+You can enter a name and select the supported account types. The _Single tenant_ option is marked by default.
+
+![Registering new app](docs/images/2.png "Registering new app")
+
+To grant **Meetings tool** access to your registered Azure application, you will need a **client secret**. To obtain this, you can access the _Certificates & secrets_ section within the configuration page of your registered Azure application.
+
+![Client secret](docs/images/3.png "Client secret")
+
+Once the app is created, you need to configure the permissions for your registered Azure App in the _API Permissions_ section. To add a new permission you must click _Add a permission_, then select _Microsoft Graph_ and _Application Permissions_.
+
+![Permissions](docs/images/4.png "Permissions")
+
+The permissions to enable are defined in the following table:
 
 ```sh
 Directory.Read.All
