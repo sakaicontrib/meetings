@@ -60,7 +60,7 @@
         <template #activator>
           <sakai-button
             v-if="description"
-            text="View Description"
+            :text="i18n.decription_link_text"
             :link="true"
             tabindex="0"
           ></sakai-button>
@@ -305,8 +305,8 @@ export default {
     },
     menuitems: function () { 
       return [
-        { "string": "Edit", "icon": "edit", "action": this.editMeeting },
-        { "string": "Delete", "icon": "delete", "action": this.askDeleteMeeting }
+        { "string": this.i18n.edit_action, "icon": "edit", "action": this.editMeeting },
+        { "string": this.i18n.delete_action, "icon": "delete", "action": this.askDeleteMeeting }
       ];
     },
     showMenu: function () {

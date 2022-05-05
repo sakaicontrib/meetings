@@ -185,7 +185,7 @@ export default {
     return {
       meetingsList: [],
       searchString: '',
-      btnPress1: false,
+      editPermission: false,
       btnPress2: false,
       items: [
         {
@@ -237,47 +237,39 @@ export default {
     },
     handleShowRecordings: function () {
     },
-    loadMeetingsList: function () {
-      fetch(constants.toolPlacement + "/meetings/site/" + this.$route.params.siteid)
-      .then(r => {
-        if (r.ok) {
-          return r.json();
-        }
-        throw new Error(`Failed to get meetings`);
-      })
-      .then(data => {
+    loadMeetingsList: async function () {
+      const response = await fetch(constants.toolPlacement + "/meetings/site/" + this.$route.params.siteid)
+      if(response.ok) {
+        const data = await response.json();
         data.forEach(meeting => {
-            meeting.live = false;
-            meeting.startDate = dayjs(meeting.startDate)
-              .tz(portal.user.timezone, true).format();
-            meeting.endDate = dayjs(meeting.endDate)
-              .tz(portal.user.timezone, true).format();
-            if (dayjs().isAfter(dayjs(meeting.startDate)) && dayjs().isBefore(dayjs(meeting.endDate))) {
-                meeting.live = true;
-            }
+          //Format dates to localized format
+          meeting.startDate = dayjs(meeting.startDate)
+            .tz(portal.user.timezone, true).format();
+          meeting.endDate = dayjs(meeting.endDate)
+            .tz(portal.user.timezone, true).format();
+          //Set 'live' value
+          meeting.live = false;
+          if (dayjs().isAfter(dayjs(meeting.startDate)) && dayjs().isBefore(dayjs(meeting.endDate))) {
+              meeting.live = true;
+          }
         });
+        //Assign data to meetings List
         this.meetingsList = [...data];
-      })
-      .catch (error => this.showError(error));
+      } else {
+        this.showError(this.i18n.error_load_meetings);
+      }
     },
     meetingsComperator(a,b) {
       return dayjs(a.startDate).isBefore(b.startDate) ? -1 : 1;
     },
-    loadEditPermission() {
-      this.editPermission = false;
-      fetch(constants.toolPlacement + "/meetings/user/editperms/site/" + this.$route.params.siteid)
-      .then(r => {
-        if (r.ok) {
-          return r.json();
-        }
-        throw new Error(`Failed to get permissions`);
-      })
-      .then(data => {
-          this.editPermission = data;
-      })
-      .catch(error => this.showError(error));
-    },
-    switchtheme: function () {
+    async loadEditPermission() {
+      const response = await fetch(`${constants.toolPlacement}/meetings/user/editperms/site/${this.$route.params.siteid}`)
+      if(response.ok) {
+        const hasPermission = await response.json();
+        this.editPermission = hasPermission; 
+      } else {
+        this.showError(this.i18n.error_load_permissions);
+      }
     },
   },
   computed: {
