@@ -15,7 +15,7 @@
     
     <properties>
         <deploy.target>shared</deploy.target>
-        <json.version>20220320</json.version>
+        <json.version>20230227</json.version>
         <msal4j.version>1.11.3</msal4j.version>
         <azure-identity.version>1.5.0</azure-identity.version>
         <microsoft-graph.version>5.20.0</microsoft-graph.version>
